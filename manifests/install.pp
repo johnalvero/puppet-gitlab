@@ -123,9 +123,10 @@ class gitlab::install inherits ::gitlab {
     }
   }
 
-  package {'wget':
-    ensure => present,
-  }
+  # This is already declared in Voyager's baseconfig
+  #package {'wget':
+  #  ensure => present,
+  #}
   # Use wget to download gitlab
   exec { 'download gitlab':
     command => "/usr/bin/wget ${gitlab_url}",

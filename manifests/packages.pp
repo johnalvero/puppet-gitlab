@@ -21,12 +21,12 @@ class gitlab::packages inherits ::gitlab {
   # The install documentation recomends different mail apps for different releases
   # https://about.gitlab.com/downloads/
   case $::operatingsystem {
-    'CentOS': {
+    'CentOS','Amazon': {
       $mail_application = 'postfix'
       $ssh_service_name = 'sshd'
       
       case $::operatingsystemmajrelease {
-        '6': {
+        '6','3': {
             exec {"chkconfig ${mail_application} on":
               path    => '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin',
               command => "chkconfig ${mail_application} on",
@@ -49,7 +49,7 @@ class gitlab::packages inherits ::gitlab {
             }
         }
         default: {
-          fail("Only Centos 6 and 7 are presently supported, found: ${::osfamily}-${::operatingsystemmajrelease}:${::operatingsystem}-${::operatingsystemrelease} ")
+          fail("Only Centos 6, 7 and Amazon AMI are presently supported, found: ${::osfamily}-${::operatingsystemmajrelease}:${::operatingsystem}-${::operatingsystemrelease} ")
         }
       }
     }
@@ -64,7 +64,7 @@ class gitlab::packages inherits ::gitlab {
 
     }
     default: {
-      fail("Only Centos, Ubuntu and Debian presently supported, found \'${::osfamily}\':\'${::operatingsystem}\'-\'${::operatingsystemrelease}\' ")
+      fail("Only Centos, Ubuntu, Debian and Amazon AMI presently supported, found \'${::osfamily}\':\'${::operatingsystem}\'-\'${::operatingsystemrelease}\' ")
     }
   }
 
